@@ -93,6 +93,7 @@ class EC2InstanceConnectCLI(object):
         invocation_proc = Popen(command, shell=True)
         while invocation_proc.poll() is None: #sub-process not terminated
             time.sleep(0.1)
+        return invocation_proc.returncode
 
     def invoke_command(self):
         """
@@ -110,8 +111,11 @@ class EC2InstanceConnectCLI(object):
             self.handle_keys()
 
             #important to generate the command after calling call_ec2 and handle_keys
-            self.run_command(self.cli_command.get_command())
-
+            cmd_returncode = self.run_command(self.cli_command.get_command())
+            if cmd_returncode != 0:
+                self.logger.error("The remote command returned a non-zero exit code")
+                sys.exit(cmd_returncode)
+                
         except Exception as e:
             self.logger.error("Failed with: " + str(e))
             sys.exit(1)

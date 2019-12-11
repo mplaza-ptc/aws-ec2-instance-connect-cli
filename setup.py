@@ -26,7 +26,7 @@ requires = ['cryptography>=1.9',
             ]
 
 setup_options = dict(
-    name='ec2instanceconnectcli',
+    name='ec2instanceconnectcli-ptc',
     version=find_version('ec2instanceconnectcli', '__init__.py'),
     description='Command Line Interface for AWS EC2 Instance Connect',
     long_description='This CLI package handles publishing keys through EC2 Instance Connect'
